@@ -46,6 +46,6 @@ class ClientsRepository {
   }
 
   Future<void> addnewClientToDatabase({required Client client}) async {
-    return await clientsDataProvider.addNewClientToDatabase(client: client);
+    await clientsDataProvider.addNewClientToDatabase(client: client);
   }
 }

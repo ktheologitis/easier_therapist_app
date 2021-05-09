@@ -34,15 +34,14 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
 
   Stream<ClientsState> _mapClientAddedEventToState(ClientAdded event) async* {
     final Client newClient = event.client;
-    await clientsRepository
-        .addnewClientToDatabase(client: newClient)
-        .then((value) async* {
+    try {
+      await clientsRepository.addnewClientToDatabase(client: newClient);
       Clients newClients = new Clients();
       newClients.data = {...state.clients.data};
       newClients.data[event.client.id] = newClient;
       yield ClientsLoaded(clients: newClients);
-    }).catchError((err) {
+    } catch (err) {
       print("Adding new client error: $err");
-    });
+    }
   }
 }

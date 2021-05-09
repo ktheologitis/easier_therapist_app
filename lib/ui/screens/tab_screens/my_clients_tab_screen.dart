@@ -3,12 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../components/client_list_item.dart';
 import '../../../logic/clientsbloc/clientsbarrel.dart';
+import '../../../data/models/client.dart';
+import '../../../logic/filteredclientscubit/filteredclientscubit.dart';
 
 class MyClientsTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     ClientsBloc clientsBloc = BlocProvider.of<ClientsBloc>(context);
+    FilteredClientsCubit filteredClientsCubit =
+        BlocProvider.of<FilteredClientsCubit>(context);
+    TextEditingController _clientFilterController = new TextEditingController();
 
     return BlocBuilder<ClientsBloc, ClientsState>(builder: (_, state) {
       if (state is ClientsLoaded) {
@@ -27,19 +32,24 @@ class MyClientsTabScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextField(
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.search),
-                          // border: OutlineInputBorder(),
-                          labelText: "Search by Client name"),
-                    ),
+                        controller: _clientFilterController,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            labelText: "Search by Client name"),
+                        onChanged: (value) {
+                          filteredClientsCubit.filterClients(value);
+                        }),
                     Expanded(
-                      child: ListView(
-                        children: state.clients.data.values
-                            .map((client) => ClientListItem(
-                                  client: client,
-                                ))
-                            .toList(),
-                      ),
+                      child: BlocBuilder<FilteredClientsCubit, List<Client>>(
+                          builder: (_, state) {
+                        return ListView(
+                          children: state.map((client) {
+                            return ClientListItem(
+                              client: client,
+                            );
+                          }).toList(),
+                        );
+                      }),
                     ),
                   ],
                 ),

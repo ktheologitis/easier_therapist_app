@@ -23,7 +23,7 @@ class ClientsDataProvider {
   }
 
   Future<void> addNewClientToDatabase({required Client client}) async {
-    return await fireStoreInstance
+    await fireStoreInstance
         .collection("therapists")
         .doc(therapistId)
         .collection("clients")
