@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bloc/bloc.dart';
 
 import './ui/styles/theme.dart';
 import './ui/screens/main_screens/home_screen.dart';
@@ -10,6 +9,7 @@ import './ui/screens/main_screens/client_profile_screen.dart';
 import './logic/clientsbloc/clientsbloc.dart';
 import './logic/homeworkpoolbloc/homeworkpoolbloc.dart';
 import './logic/filteredclientscubit/filteredclientscubit.dart';
+import './logic/snackbarcubit/snackbarcubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,10 +41,12 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MultiBlocProvider(
             providers: [
+              BlocProvider<SnackbarCubit>(create: (_) => SnackbarCubit()),
               BlocProvider<ClientsBloc>(
-                create: (_) => ClientsBloc(
+                create: (context) => ClientsBloc(
                     firestoreInstance: _firestoreInstance,
-                    therapistId: therapistId),
+                    therapistId: therapistId,
+                    snackbarCubit: BlocProvider.of<SnackbarCubit>(context)),
               ),
               BlocProvider<HomeworkPoolBloc>(
                 create: (_) => HomeworkPoolBloc(

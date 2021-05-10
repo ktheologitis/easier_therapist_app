@@ -5,8 +5,8 @@ class ClientsState {
   ClientsState({required this.clients});
 }
 
-class ClientsLoaded extends ClientsState {
-  ClientsLoaded({required Clients clients}) : super(clients: clients);
+class ClientsDisplay extends ClientsState {
+  ClientsDisplay({required Clients clients}) : super(clients: clients);
 }
 
 class ClientsLoading extends ClientsState {

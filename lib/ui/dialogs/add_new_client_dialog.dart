@@ -19,7 +19,6 @@ Future<void> showAddClientDialog(BuildContext context) async {
         Client newClient = Client(
           id: uuid.v1(),
         );
-        print(newClient.id);
         return AlertDialog(
           contentPadding: const EdgeInsets.all(16.0),
           title: Text("Add a new client."),

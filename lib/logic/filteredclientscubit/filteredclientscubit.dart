@@ -34,7 +34,7 @@ class FilteredClientsCubit extends Cubit<List<Client>> {
   void _subscribeToClientsBlocUntilClientsAreLoadedForTheFirstTime() {
     clientsBlocStreamSubscription = clientsBloc.stream.listen((state) {
       emit(List.from(clientsBloc.state.clients.data.values.toList().reversed));
-      if (state is ClientsLoaded) {
+      if (state is ClientsDisplay) {
         clientsBlocStreamSubscription?.cancel();
       }
     });
