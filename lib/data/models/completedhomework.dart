@@ -7,7 +7,7 @@ class CompletedHomework {
   final String referencedHomeworkId;
   final AssignedHomeworkPool assignedHomeworkPool;
 
-  Map<dynamic, dynamic>? get fields {
+  List<dynamic>? get fields {
     return assignedHomeworkPool.data[referencedHomeworkId]?.fields;
   }
 

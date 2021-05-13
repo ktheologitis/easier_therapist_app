@@ -45,6 +45,11 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       newClients.data = {...state.clients.data};
       newClients.data[event.client.id] = newClient;
       yield ClientsDisplay(clients: newClients);
+      snackbarCubit.showSnackbar(
+        message:
+            "New client ${event.client.firstName} ${event.client.lastName} was added",
+        messageType: MessageType.information,
+      );
     } catch (err) {
       snackbarCubit.showSnackbar(
         message: "Error adding new client: $err",

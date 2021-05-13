@@ -12,7 +12,7 @@ class AssignedHomework {
     return homeworkPool.data[referencedHomeworkId]?.title;
   }
 
-  Map<dynamic, dynamic>? get fields {
+  List<dynamic>? get fields {
     return homeworkPool.data[referencedHomeworkId]?.fields;
   }
 

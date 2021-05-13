@@ -1,14 +1,22 @@
-import 'dart:collection';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Homework {
   final String id;
-  final String title;
-  final Map<dynamic, dynamic> fields;
-  final DateTime dateCreated;
+  String title;
+  List<dynamic> fields;
+  final DateTime? dateCreated;
 
-  Homework(
-      {required this.id,
-      required this.title,
-      required this.fields,
-      required this.dateCreated});
+  Homework({
+    required this.id,
+    this.title = "",
+    this.fields = const [],
+    this.dateCreated,
+  });
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "fields": fields,
+        "dateCreated": Timestamp.fromDate(dateCreated!),
+      };
 }

@@ -10,6 +10,7 @@ class HomeworkPoolTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     HomeworkPoolBloc homeworkPoolBloc =
         BlocProvider.of<HomeworkPoolBloc>(context);
 
@@ -29,7 +30,8 @@ class HomeworkPoolTabScreen extends StatelessWidget {
                 icon: Icon(Icons.add),
                 label: Text("CREATE NEW HOMEWORK"),
                 onPressed: () {
-                  showCreateNewHomeworkDialog(context);
+                  showCreateUpdateHomeworkDialog(
+                      context: context, mode: Mode.create);
                 },
               ),
             ],
@@ -39,21 +41,41 @@ class HomeworkPoolTabScreen extends StatelessWidget {
           ),
           BlocBuilder<HomeworkPoolBloc, HomeworkPoolState>(
             builder: (_, state) {
-              if (state is HomeworkPoolLoaded) {
+              if (state is HomeworkPoolLoading) {
+                homeworkPoolBloc.add(HomeworkPoolBeingFetched());
+                return Expanded(
+                  child: Center(
+                    child: Text("Loading"),
+                  ),
+                );
+              } else if (state is HomeworkPoolDisplay) {
+                var homeworkPoolList =
+                    state.homeworkPool.data.values.toList().reversed.toList();
                 return Expanded(
                   child: ListView.separated(
                     itemCount: state.homeworkPool.data.length,
                     separatorBuilder: (context, index) =>
                         SizedBox(height: 16.0),
-                    itemBuilder: (context, index) => HomeworkPoolListItem(
-                        homework:
-                            state.homeworkPool.data.values.toList()[index]),
+                    itemBuilder: (context, index) =>
+                        HomeworkPoolListItem(homework: homeworkPoolList[index]),
                   ),
                 );
               } else {
-                homeworkPoolBloc.add(HomeworkPoolBeingFetched());
-                return Center(
-                  child: Text("Loading"),
+                // state is HomeworkPoolDisplayError
+                return Expanded(
+                  child: Column(
+                    children: [
+                      Text((state as HomeworkPoolDisplayError).errorMessage),
+                      SizedBox(
+                        height: 24.0,
+                      ),
+                      ElevatedButton(
+                          child: Text("RETRY FETCHING HOMEWORK POOL DATA"),
+                          onPressed: () {
+                            homeworkPoolBloc.add(HomeworkPoolBeingFetched());
+                          }),
+                    ],
+                  ),
                 );
               }
             },

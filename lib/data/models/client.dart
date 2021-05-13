@@ -25,7 +25,7 @@ class Client {
   final String id;
   String firstName;
   String lastName;
-  String? phone;
+  String phone;
   String? email;
   String? address;
   int? age;

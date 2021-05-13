@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/homework.dart';
+
 class HomeworkPoolDataProvider {
   final FirebaseFirestore firestoreInstance;
   final String therapistId;
@@ -16,7 +18,41 @@ class HomeworkPoolDataProvider {
         .catchError((err) {
       print("getRawHomeworkPool error: $err");
     });
-
     return rawHomeworkPool;
+  }
+
+  Future<void> addNewHomeworkToDatabase({required Homework homework}) async {
+    firestoreInstance
+        .collection("therapists")
+        .doc(therapistId)
+        .collection("homeworkPool")
+        .doc(homework.id)
+        .set(
+      {
+        "id": homework.id,
+        "title": homework.title,
+        "fields": homework.fields,
+        "dateCreated": Timestamp.fromDate(DateTime.now()),
+      },
+    );
+  }
+
+  Future<void> deleteHomeworkFromDatabase({required String homeworkId}) async {
+    await firestoreInstance
+        .collection("therapists")
+        .doc(therapistId)
+        .collection("homeworkPool")
+        .doc(homeworkId)
+        .delete();
+  }
+
+  Future<void> updateHomeworkInDatabase(
+      {required Homework updatedHomework}) async {
+    await firestoreInstance
+        .collection("therapists")
+        .doc(therapistId)
+        .collection("homeworkPool")
+        .doc(updatedHomework.id)
+        .update(updatedHomework.toJson());
   }
 }

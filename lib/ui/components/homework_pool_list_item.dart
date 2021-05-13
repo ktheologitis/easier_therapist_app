@@ -1,8 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'dart:ui';
 import '../../data/models/homework.dart';
+import '../../logic/homeworkpoolbloc/homeworkpoolbarrel.dart';
+import '../dialogs/verifyActionDialog.dart';
+import '../dialogs/create_new_homework_dialog.dart';
 
 class HomeworkPoolListItem extends StatelessWidget {
   HomeworkPoolListItem({required this.homework});
@@ -11,6 +14,9 @@ class HomeworkPoolListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HomeworkPoolBloc homeworkPoolBloc =
+        BlocProvider.of<HomeworkPoolBloc>(context);
+
     return ListTile(
         tileColor: Colors.white,
         title: Text(
@@ -24,7 +30,10 @@ class HomeworkPoolListItem extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
-                  print("Edit homework");
+                  showCreateUpdateHomeworkDialog(
+                      context: context,
+                      mode: Mode.update,
+                      existingHomework: homework);
                 },
                 icon: Icon(Icons.edit)),
             SizedBox(
@@ -32,7 +41,10 @@ class HomeworkPoolListItem extends StatelessWidget {
             ),
             IconButton(
                 onPressed: () {
-                  print("Delete from homework pool");
+                  showVerifyActionDialog(
+                      context: context,
+                      title: "Are you sure you want to delete this client?",
+                      homeworkId: homework.id);
                 },
                 icon: Icon(Icons.delete)),
           ],

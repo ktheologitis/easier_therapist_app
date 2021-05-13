@@ -19,6 +19,7 @@ class ClientsRepository {
 
   Future<Clients> getClients() async {
     final QuerySnapshot rawClients = await clientsDataProvider.getRawClients();
+
     rawClients.docs.forEach((rawClient) {
       clients.data[rawClient.id] = new Client(
         id: rawClient.id,

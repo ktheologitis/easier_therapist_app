@@ -49,10 +49,10 @@ class MyApp extends StatelessWidget {
                     snackbarCubit: BlocProvider.of<SnackbarCubit>(context)),
               ),
               BlocProvider<HomeworkPoolBloc>(
-                create: (_) => HomeworkPoolBloc(
-                  firestoreInstance: _firestoreInstance,
-                  therapistId: therapistId,
-                ),
+                create: (context) => HomeworkPoolBloc(
+                    firestoreInstance: _firestoreInstance,
+                    therapistId: therapistId,
+                    snackbarCubit: BlocProvider.of<SnackbarCubit>(context)),
               ),
               BlocProvider<FilteredClientsCubit>(
                   create: (context) => FilteredClientsCubit(
