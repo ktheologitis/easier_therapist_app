@@ -17,6 +17,11 @@ class HomeworkPoolListItem extends StatelessWidget {
     HomeworkPoolBloc homeworkPoolBloc =
         BlocProvider.of<HomeworkPoolBloc>(context);
 
+    void handleDeleteHomework() {
+      homeworkPoolBloc.add(HomeworkDeleted(homeworkId: homework.id));
+      Navigator.of(context).pop();
+    }
+
     return ListTile(
         tileColor: Colors.white,
         title: Text(
@@ -44,7 +49,7 @@ class HomeworkPoolListItem extends StatelessWidget {
                   showVerifyActionDialog(
                       context: context,
                       title: "Are you sure you want to delete this client?",
-                      homeworkId: homework.id);
+                      action: handleDeleteHomework);
                 },
                 icon: Icon(Icons.delete)),
           ],

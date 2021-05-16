@@ -27,14 +27,7 @@ class HomeworkPoolDataProvider {
         .doc(therapistId)
         .collection("homeworkPool")
         .doc(homework.id)
-        .set(
-      {
-        "id": homework.id,
-        "title": homework.title,
-        "fields": homework.fields,
-        "dateCreated": Timestamp.fromDate(DateTime.now()),
-      },
-    );
+        .set(homework.toFirestoreJson());
   }
 
   Future<void> deleteHomeworkFromDatabase({required String homeworkId}) async {
@@ -53,6 +46,6 @@ class HomeworkPoolDataProvider {
         .doc(therapistId)
         .collection("homeworkPool")
         .doc(updatedHomework.id)
-        .update(updatedHomework.toJson());
+        .update(updatedHomework.toFirestoreJson());
   }
 }

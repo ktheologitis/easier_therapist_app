@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
 import '../../logic/clientsbloc/clientsbarrel.dart';
 import '../../data/models/client.dart';
+import '../components/datetimePicker.dart';
 
 Future<void> showAddClientDialog(BuildContext context) async {
   final width = MediaQuery.of(context).size.width;
@@ -157,14 +157,21 @@ class _AddNewClientFormState extends State<AddNewClientForm> {
               controller: _dateTimeController,
               decoration: InputDecoration(
                 suffixIcon: IconButton(
-                    icon: Icon(Icons.date_range_outlined),
-                    onPressed: () {
-                      showDateTimePicker(
-                          context, _dateTimeController, widget.newClient);
-                    }),
+                  icon: Icon(Icons.date_range_outlined),
+                  onPressed: () {
+                    showDateTimePicker(
+                        context, _dateTimeController, widget.newClient);
+                  },
+                ),
                 labelText: "Session DateTime",
                 border: OutlineInputBorder(),
               ),
+              onSaved: (value) {
+                if (value != null) {
+                  widget.newClient.nextSession =
+                      DateFormat.yMMMMEEEEd().add_Hm().parse(value);
+                }
+              },
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide date and time of the first session";
@@ -177,34 +184,4 @@ class _AddNewClientFormState extends State<AddNewClientForm> {
       ),
     );
   }
-}
-
-Future<DateTime?> showDateTimePicker(BuildContext context,
-    TextEditingController dateTimeController, Client newClient) {
-  return showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime.now().add(Duration(days: 6 * 30)),
-  ).then((date) {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((time) {
-      print(date);
-      print(time);
-      if (date != null && time != null) {
-        DateTime nextSession = new DateTime(
-          date.year,
-          date.month,
-          date.day,
-          time.hour,
-          time.minute,
-        );
-        newClient.nextSession = nextSession;
-        dateTimeController.text =
-            DateFormat.yMMMMEEEEd().add_Hm().format(nextSession);
-      }
-    });
-  });
 }

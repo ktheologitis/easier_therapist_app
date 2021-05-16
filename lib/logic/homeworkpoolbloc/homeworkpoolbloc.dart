@@ -59,10 +59,8 @@ class HomeworkPoolBloc extends Bloc<HomeworkPoolEvent, HomeworkPoolState> {
     try {
       await homeworkPoolRepository.addNewHomeworkToDatabase(
           homework: event.homework);
-      HomeworkPool newHomeworkPool = HomeworkPool();
-      newHomeworkPool.data = {...state.homeworkPool.data};
-      newHomeworkPool.data[event.homework.id] = event.homework;
-      yield HomeworkPoolDisplay(homeworkPool: newHomeworkPool);
+      state.homeworkPool.data[event.homework.id] = event.homework;
+      yield HomeworkPoolDisplay(homeworkPool: state.homeworkPool);
       snackbarCubit.showSnackbar(
         message: "New homework ${event.homework.title} was added.",
         messageType: MessageType.information,

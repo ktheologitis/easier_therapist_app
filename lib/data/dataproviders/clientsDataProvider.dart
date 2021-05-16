@@ -39,13 +39,51 @@ class ClientsDataProvider {
       "gender": client.gender,
       "presentingProblem": client.presentingProblem,
       "referencedBy": client.referencedBy,
-      "emergencyContact.firstName": client.emergencyContactFirstName,
-      "emergencyContact.lastName": client.emergencyContactLastName,
-      "emergencyContact.phone": client.emergencyContactPhoneNumber,
-      "emergencyContact.relation": client.emergencyContactRelationToClient,
+      "emergencyContact": {
+        "firstName": client.emergencyContactFirstName,
+        "lastName": client.emergencyContactLastName,
+        "phone": client.emergencyContactPhoneNumber,
+        "relation": client.emergencyContactRelationToClient
+      },
       "nextSession": Timestamp.fromDate(client.nextSession!),
       "runningSessionNumber": client.runningSessionNumber,
       "active": client.active,
     });
+  }
+
+  Future<void> updateClientInDatabase({required Client updatedClient}) async {
+    await fireStoreInstance
+        .collection("therapists")
+        .doc(therapistId)
+        .collection("clients")
+        .doc(updatedClient.id)
+        .update(updatedClient.toFirestoreJson());
+  }
+
+  Future<void> deleteClientFromDatabase({required String clientId}) async {
+    await fireStoreInstance
+        .collection("therapists")
+        .doc(therapistId)
+        .collection("clients")
+        .doc(clientId)
+        .delete();
+  }
+
+  Future<void> archiveClient({required String clientId}) async {
+    await fireStoreInstance
+        .collection("therapists")
+        .doc(therapistId)
+        .collection("clients")
+        .doc(clientId)
+        .update({"active": false});
+  }
+
+  Future<void> reActivateClient({required String clientId}) async {
+    await fireStoreInstance
+        .collection("therapists")
+        .doc(therapistId)
+        .collection("clients")
+        .doc(clientId)
+        .update({"active": true});
   }
 }

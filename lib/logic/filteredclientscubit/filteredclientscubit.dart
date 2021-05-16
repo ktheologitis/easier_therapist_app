@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:bloc/bloc.dart';
 
@@ -12,7 +11,7 @@ class FilteredClientsCubit extends Cubit<List<Client>> {
   StreamSubscription? clientsBlocStreamSubscription;
 
   FilteredClientsCubit({required this.clientsBloc}) : super([]) {
-    _subscribeToClientsBlocUntilClientsAreLoadedForTheFirstTime();
+    _subscribeToClientsBloc();
   }
 
   void filterClients(String typedText) {
@@ -31,12 +30,18 @@ class FilteredClientsCubit extends Cubit<List<Client>> {
     }
   }
 
-  void _subscribeToClientsBlocUntilClientsAreLoadedForTheFirstTime() {
+  void _subscribeToClientsBloc() {
     clientsBlocStreamSubscription = clientsBloc.stream.listen((state) {
-      emit(List.from(clientsBloc.state.clients.data.values.toList().reversed));
       if (state is ClientsDisplay) {
-        clientsBlocStreamSubscription?.cancel();
+        emit(
+            List.from(clientsBloc.state.clients.data.values.toList().reversed));
       }
     });
+  }
+
+  @override
+  Future<void> close() async {
+    await clientsBlocStreamSubscription?.cancel();
+    return super.close();
   }
 }

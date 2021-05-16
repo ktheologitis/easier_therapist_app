@@ -10,6 +10,7 @@ import './logic/clientsbloc/clientsbloc.dart';
 import './logic/homeworkpoolbloc/homeworkpoolbloc.dart';
 import './logic/filteredclientscubit/filteredclientscubit.dart';
 import './logic/snackbarcubit/snackbarcubit.dart';
+import './logic/updateclientcubit/updateclientcubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,11 +43,17 @@ class MyApp extends StatelessWidget {
           return MultiBlocProvider(
             providers: [
               BlocProvider<SnackbarCubit>(create: (_) => SnackbarCubit()),
+              BlocProvider<UpdateClientCubit>(
+                create: (_) => UpdateClientCubit(),
+              ),
               BlocProvider<ClientsBloc>(
                 create: (context) => ClientsBloc(
-                    firestoreInstance: _firestoreInstance,
-                    therapistId: therapistId,
-                    snackbarCubit: BlocProvider.of<SnackbarCubit>(context)),
+                  firestoreInstance: _firestoreInstance,
+                  therapistId: therapistId,
+                  snackbarCubit: BlocProvider.of<SnackbarCubit>(context),
+                  updateClientCubit:
+                      BlocProvider.of<UpdateClientCubit>(context),
+                ),
               ),
               BlocProvider<HomeworkPoolBloc>(
                 create: (context) => HomeworkPoolBloc(
@@ -56,7 +63,7 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<FilteredClientsCubit>(
                   create: (context) => FilteredClientsCubit(
-                      clientsBloc: BlocProvider.of<ClientsBloc>(context)))
+                      clientsBloc: BlocProvider.of<ClientsBloc>(context))),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,

@@ -2,8 +2,8 @@ import '../../../data/models/client.dart';
 import '../main_screens/client_profile_screen.dart';
 
 class ClientProfileScreenArguments {
-  final Client client;
+  final String clientId;
   final String comingFrom = ClientProfileScreen.routeName;
 
-  ClientProfileScreenArguments({required this.client});
+  ClientProfileScreenArguments({required this.clientId});
 }

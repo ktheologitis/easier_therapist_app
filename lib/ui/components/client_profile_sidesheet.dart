@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../styles/colors_icons.dart';
 import '../../data/models/client.dart';
+import '../../data/models/clients.dart';
 import '../components/floating_button.dart';
+import '../../logic/clientsbloc/clientsbarrel.dart';
+import '../dialogs/verifyActionDialog.dart';
 
 class ClientProfileSideSheet extends StatelessWidget {
   ClientProfileSideSheet(
-      {required this.client,
+      {required this.clientId,
       required this.selected,
       required this.onSelectMenuItem});
 
-  final Client client;
+  final String clientId;
   final String selected;
   final Function onSelectMenuItem;
 
@@ -19,12 +23,22 @@ class ClientProfileSideSheet extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
+    final ClientsBloc clientsBloc = BlocProvider.of<ClientsBloc>(context);
+    final Clients clients = clientsBloc.state.clients;
+    final Client client = clients.data[clientId]!;
+
+    void handleDeleteClient() {
+      clientsBloc.add(ClientDeleted(clientId: client.id));
+      Navigator.of(context).popUntil(ModalRoute.withName("/"));
+    }
+
     return SizedBox(
       height: height - 56,
       width: width * 0.2,
       child: Container(
         color: Colors.white,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               flex: 2,
@@ -42,6 +56,21 @@ class ClientProfileSideSheet extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+            BlocBuilder<ClientsBloc, ClientsState>(
+              builder: (_, state) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Text(
+                    state.clients.data[clientId]!.active == true
+                        ? "Active"
+                        : "Archived",
+                    style: state.clients.data[clientId]!.active == true
+                        ? TextStyle(color: MyColors.secondary, fontSize: 16)
+                        : TextStyle(color: MyColors.grey, fontSize: 16),
+                  ),
+                );
+              },
             ),
             Divider(),
             Expanded(
@@ -120,18 +149,30 @@ class ClientProfileSideSheet extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Center(
-                    child: SizedBox(
-                      height: 48,
-                      width: 208,
-                      child: FloatingButton(
-                        color: MyColors.primary,
-                        icon: Icon(Icons.archive_outlined),
-                        title: "ARCHIVE CLIENT",
-                        action: () => print("archived client"),
-                      ),
-                    ),
-                  ),
+                  BlocBuilder<ClientsBloc, ClientsState>(builder: (_, state) {
+                    return Center(
+                      child: SizedBox(
+                          height: 48,
+                          width:
+                              state.clients.data[clientId]!.active ? 208 : 240,
+                          child: state.clients.data[clientId]!.active == true
+                              ? FloatingButton(
+                                  color: MyColors.primary,
+                                  icon: Icon(Icons.archive_outlined),
+                                  title: "ARCHIVE CLIENT",
+                                  action: () => clientsBloc
+                                      .add(ClientArchived(clientId: clientId)),
+                                )
+                              : FloatingButton(
+                                  color: MyColors.secondary,
+                                  icon: Icon(
+                                      Icons.settings_backup_restore_rounded),
+                                  title: "RE-ACTIVATE CLIENT",
+                                  action: () => clientsBloc.add(
+                                      ClientReActivated(clientId: clientId)),
+                                )),
+                    );
+                  }),
                   SizedBox(
                     height: 24,
                   ),
@@ -147,6 +188,13 @@ class ClientProfileSideSheet extends StatelessWidget {
                       },
                     )),
                     onPressed: () {
+                      showVerifyActionDialog(
+                        context: context,
+                        title: "Delete client?",
+                        content:
+                            "By deleting this clients you are losign all their data forever.",
+                        action: handleDeleteClient,
+                      );
                       print("Delete client");
                     },
                     icon: Icon(Icons.delete_forever_outlined),

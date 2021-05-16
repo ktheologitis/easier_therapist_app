@@ -4,6 +4,8 @@ import '../../styles/colors_icons.dart';
 import 'assigned_homework_tab.dart';
 
 class ClientHomeworkTabScreen extends StatefulWidget {
+  ClientHomeworkTabScreen({required this.clientId});
+  final String clientId;
   @override
   _ClientHomeworkTabScreenState createState() =>
       _ClientHomeworkTabScreenState();

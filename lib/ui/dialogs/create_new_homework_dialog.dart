@@ -70,11 +70,13 @@ Future<void> showCreateUpdateHomeworkDialog(
                   if (formKey.currentState!.validate()) {
                     formKey.currentState?.save();
                     print(newHomework.fields);
-                    mode == Mode.create
-                        ? homeworkPoolBloc
-                            .add(HomeworkAdded(homework: newHomework))
-                        : homeworkPoolBloc
-                            .add(HomeworkUpdated(updatedHomework: newHomework));
+                    if (mode == Mode.create) {
+                      homeworkPoolBloc
+                          .add(HomeworkAdded(homework: newHomework));
+                    } else {
+                      homeworkPoolBloc
+                          .add(HomeworkUpdated(updatedHomework: newHomework));
+                    }
                     Navigator.of(context).pop();
                   }
                 },

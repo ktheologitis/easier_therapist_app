@@ -80,4 +80,6 @@ class MyColors {
       900: const Color(0XFFE5E5E5),
     },
   );
+
+  static final MaterialColor grey = Colors.grey;
 }

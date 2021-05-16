@@ -9,17 +9,17 @@ class ClientsRepository {
   final Clients clients;
   late ClientsDataProvider clientsDataProvider;
 
-  ClientsRepository(
-      {required this.fireStoreInstance,
-      required this.therapistId,
-      required this.clients}) {
+  ClientsRepository({
+    required this.fireStoreInstance,
+    required this.therapistId,
+    required this.clients,
+  }) {
     clientsDataProvider = ClientsDataProvider(
         fireStoreInstance: fireStoreInstance, therapistId: therapistId);
   }
 
   Future<Clients> getClients() async {
     final QuerySnapshot rawClients = await clientsDataProvider.getRawClients();
-
     rawClients.docs.forEach((rawClient) {
       clients.data[rawClient.id] = new Client(
         id: rawClient.id,
@@ -32,12 +32,14 @@ class ClientsRepository {
         gender: rawClient.data()["gender"],
         presentingProblem: rawClient.data()["presentingProblem"],
         referencedBy: rawClient.data()["referencedBy"],
-        emergencyContactFirstName:
-            rawClient.data()["emergencyContact.firstName"],
-        emergencyContactLastName: rawClient.data()["emergencyContact.lastName"],
-        emergencyContactPhoneNumber: rawClient.data()["emergencyContact.phone"],
-        emergencyContactRelationToClient:
-            rawClient.data()["emergencyContact.relation"],
+        emergencyContactFirstName: rawClient.data()["emergencyContact"]
+            ["firstName"],
+        emergencyContactLastName: rawClient.data()["emergencyContact"]
+            ["lastName"],
+        emergencyContactPhoneNumber: rawClient.data()["emergencyContact"]
+            ["phone"],
+        emergencyContactRelationToClient: rawClient.data()["emergencyContact"]
+            ["relation"],
         nextSession: rawClient.data()["nextSession"].toDate(),
         runningSessionNumber: rawClient.data()["runningSessionNumber"],
         active: rawClient.data()["active"],
@@ -48,5 +50,22 @@ class ClientsRepository {
 
   Future<void> addnewClientToDatabase({required Client client}) async {
     await clientsDataProvider.addNewClientToDatabase(client: client);
+  }
+
+  Future<void> updateClientInDatabase({required Client updatedClient}) async {
+    await clientsDataProvider.updateClientInDatabase(
+        updatedClient: updatedClient);
+  }
+
+  Future<void> deleteClientFromDatabase({required String clientId}) async {
+    await clientsDataProvider.deleteClientFromDatabase(clientId: clientId);
+  }
+
+  Future<void> archiveClient({required String clientId}) async {
+    await clientsDataProvider.archiveClient(clientId: clientId);
+  }
+
+  Future<void> reActivateClient({required String clientId}) async {
+    await clientsDataProvider.reActivateClient(clientId: clientId);
   }
 }

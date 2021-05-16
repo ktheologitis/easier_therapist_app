@@ -50,7 +50,7 @@ class MyClientsTabScreen extends StatelessWidget {
                         return ListView(
                           children: state.map((client) {
                             return ClientListItem(
-                              client: client,
+                              clientId: client.id,
                             );
                           }).toList(),
                         );

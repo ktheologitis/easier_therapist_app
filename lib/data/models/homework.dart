@@ -13,10 +13,12 @@ class Homework {
     this.dateCreated,
   });
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toFirestoreJson() => {
         "id": id,
         "title": title,
         "fields": fields,
-        "dateCreated": Timestamp.fromDate(dateCreated!),
+        "dateCreated": dateCreated != null
+            ? Timestamp.fromDate(dateCreated!)
+            : Timestamp.fromDate(DateTime.now()),
       };
 }
