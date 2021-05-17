@@ -5,10 +5,11 @@ class ClientsState {
   ClientsState({required this.clients});
 }
 
-class ClientsDisplay extends ClientsState {
-  ClientsDisplay({required Clients clients}) : super(clients: clients);
+class ClientsDataSyncedWithDatabase extends ClientsState {
+  ClientsDataSyncedWithDatabase({required Clients clients})
+      : super(clients: clients);
 }
 
-class ClientsLoading extends ClientsState {
-  ClientsLoading({required Clients clients}) : super(clients: clients);
+class ClientsDataLoading extends ClientsState {
+  ClientsDataLoading({required Clients clients}) : super(clients: clients);
 }

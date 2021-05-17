@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/assignedhomeworkpool.dart';
+
 class Client {
   Client({
     required this.id,
@@ -21,8 +23,8 @@ class Client {
     this.active = true,
   });
 
-  final List<String> assignedHomeworkPool = [];
-  final List<String> completedHomeworkPool = [];
+  AssignedHomeworkPool assignedHomeworkPool = new AssignedHomeworkPool();
+  List<String> completedHomeworkPool = [];
 
   final String id;
   String firstName;

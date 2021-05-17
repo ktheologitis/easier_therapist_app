@@ -32,7 +32,7 @@ class FilteredClientsCubit extends Cubit<List<Client>> {
 
   void _subscribeToClientsBloc() {
     clientsBlocStreamSubscription = clientsBloc.stream.listen((state) {
-      if (state is ClientsDisplay) {
+      if (state is ClientsDataSyncedWithDatabase) {
         emit(
             List.from(clientsBloc.state.clients.data.values.toList().reversed));
       }

@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easier_therapist_app/data/models/assignedhomework.dart';
+import 'package:easier_therapist_app/data/models/assignedhomeworkpool.dart';
 import '../dataproviders/clientsDataProvider.dart';
 import '../models/clients.dart';
 import '../models/client.dart';
+import '../models/homeworkpool.dart';
 
 class ClientsRepository {
   final FirebaseFirestore fireStoreInstance;
@@ -67,5 +70,28 @@ class ClientsRepository {
 
   Future<void> reActivateClient({required String clientId}) async {
     await clientsDataProvider.reActivateClient(clientId: clientId);
+  }
+
+  Future<AssignedHomeworkPool> getClientAssignedHomeworkPool({
+    required String clientId,
+    required HomeworkPool homeworkPool,
+  }) async {
+    QuerySnapshot clientRawAssignedHomeworkPool = await clientsDataProvider
+        .getClientRawAssignedHomework(clientId: clientId);
+
+    AssignedHomeworkPool assignedHomeworkPool = new AssignedHomeworkPool();
+    clientRawAssignedHomeworkPool.docs.isEmpty
+        ? assignedHomeworkPool.data = {}
+        : clientRawAssignedHomeworkPool.docs.forEach((rawAssignedHomework) {
+            assignedHomeworkPool.data[rawAssignedHomework.id] =
+                new AssignedHomework(
+              id: rawAssignedHomework.id,
+              referencedHomeworkId:
+                  rawAssignedHomework.data()["referencedHomeworkId"],
+              homeworkPool: homeworkPool,
+            );
+          });
+
+    return assignedHomeworkPool;
   }
 }

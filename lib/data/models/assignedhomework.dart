@@ -8,17 +8,15 @@ class AssignedHomework {
   final HomeworkPool homeworkPool;
   final String note = "";
 
-  String? get title {
-    return homeworkPool.data[referencedHomeworkId]?.title;
-  }
-
-  List<dynamic>? get fields {
-    return homeworkPool.data[referencedHomeworkId]?.fields;
-  }
+  late String title;
+  late List<dynamic> fields;
 
   AssignedHomework({
     required this.id,
     required this.referencedHomeworkId,
     required this.homeworkPool,
-  });
+  }) {
+    title = homeworkPool.data[referencedHomeworkId]!.title;
+    fields = homeworkPool.data[referencedHomeworkId]!.fields;
+  }
 }

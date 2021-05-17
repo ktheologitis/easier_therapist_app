@@ -16,7 +16,7 @@ class MyClientsTabScreen extends StatelessWidget {
     TextEditingController _clientFilterController = new TextEditingController();
 
     return BlocBuilder<ClientsBloc, ClientsState>(builder: (_, state) {
-      if (state is ClientsDisplay) {
+      if (state is ClientsDataSyncedWithDatabase) {
         if (state.clients.data.isEmpty) {
           return Center(
             child: Text("You have not saved any clients yet..."),
@@ -62,13 +62,16 @@ class MyClientsTabScreen extends StatelessWidget {
             ),
           ),
         );
-      } else if (state is ClientsLoading) {
+      } else if (state is ClientsDataLoading) {
         clientsBloc.add(ClientsBeingFetched());
         return Center(
-          child: Text("Loading"),
+          child: CircularProgressIndicator(),
         );
       } else {
-        return Center();
+        return Container(
+          height: 0,
+          width: 0,
+        );
       }
     });
   }

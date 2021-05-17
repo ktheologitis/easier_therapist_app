@@ -1,3 +1,4 @@
+import 'package:easier_therapist_app/data/models/assignedhomework.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/homework.dart';
@@ -5,7 +6,7 @@ import '../../data/models/homework.dart';
 class AssignedHomeworkListItem extends StatelessWidget {
   AssignedHomeworkListItem({required this.homework});
 
-  final Homework homework;
+  final AssignedHomework homework;
 
   @override
   Widget build(BuildContext context) {

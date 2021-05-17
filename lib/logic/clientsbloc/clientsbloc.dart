@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easier_therapist_app/ui/components/client_list_item.dart';
 
 import 'clientsevent.dart';
 import 'clientsstate.dart';
@@ -21,7 +22,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     required this.therapistId,
     required this.snackbarCubit,
     required this.updateClientCubit,
-  }) : super(ClientsLoading(clients: Clients())) {
+  }) : super(ClientsDataLoading(clients: Clients())) {
     clientsRepository = new ClientsRepository(
       fireStoreInstance: firestoreInstance,
       therapistId: therapistId,
@@ -33,7 +34,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   Stream<ClientsState> mapEventToState(ClientsEvent event) async* {
     if (event is ClientsBeingFetched) {
       final Clients clients = await clientsRepository.getClients();
-      yield ClientsDisplay(clients: clients);
+      yield ClientsDataSyncedWithDatabase(clients: clients);
     } else if (event is ClientAdded) {
       yield* _mapClientAddedEventToState(event);
     } else if (event is ClientUpdated) {
@@ -44,6 +45,10 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       yield* _mapClientArchivedEventToState(event);
     } else if (event is ClientReActivated) {
       yield* _mapClientReActivatedEventToState(event);
+    } else if (event is ClientAssignedHomeworkScreenInit) {
+      yield ClientsDataLoading(clients: state.clients);
+    } else if (event is ClientAssignedHomeworkPoolBeingFetched) {
+      yield* _mapClientAssignedHomeworkPoolEventToState(event);
     }
   }
 
@@ -57,7 +62,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
             "New client ${event.client.firstName} ${event.client.lastName} was added",
         messageType: MessageType.information,
       );
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     } catch (err) {
       snackbarCubit.showSnackbar(
         message: "Error adding new client: $err",
@@ -79,7 +84,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
             "Successfully updated data for ${event.updatedClient.firstName} ${event.updatedClient.lastName}",
         messageType: MessageType.information,
       );
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     } catch (err) {
       updateClientCubit.errorSaving();
       snackbarCubit.showSnackbar(
@@ -94,13 +99,13 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       await clientsRepository.deleteClientFromDatabase(
           clientId: event.clientId);
       state.clients.data.removeWhere((key, _) => key == event.clientId);
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     } catch (err) {
       updateClientCubit.errorSaving();
       snackbarCubit.showSnackbar(
           message: "Error deleting client from cloud",
           messageType: MessageType.error);
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     }
   }
 
@@ -109,13 +114,13 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     try {
       clientsRepository.archiveClient(clientId: event.clientId);
       state.clients.data[event.clientId]!.active = false;
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     } catch (err) {
       snackbarCubit.showSnackbar(
         message: "Error changing client status on cloud.",
         messageType: MessageType.error,
       );
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     }
   }
 
@@ -124,13 +129,31 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     try {
       clientsRepository.reActivateClient(clientId: event.clientId);
       state.clients.data[event.clientId]!.active = true;
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     } catch (err) {
       snackbarCubit.showSnackbar(
         message: "Error changing client status on cloud.",
         messageType: MessageType.error,
       );
-      yield ClientsDisplay(clients: state.clients);
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
+    }
+  }
+
+  Stream<ClientsState> _mapClientAssignedHomeworkPoolEventToState(
+      ClientAssignedHomeworkPoolBeingFetched event) async* {
+    try {
+      final assignedHomeworkPool =
+          await clientsRepository.getClientAssignedHomeworkPool(
+              clientId: event.clientId, homeworkPool: event.homeworkPool);
+      state.clients.data[event.clientId]!.assignedHomeworkPool =
+          assignedHomeworkPool;
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
+    } catch (err) {
+      snackbarCubit.showSnackbar(
+        message: "Error getting the assigned homework from cloud.",
+        messageType: MessageType.error,
+      );
+      yield ClientsDataSyncedWithDatabase(clients: state.clients);
     }
   }
 }

@@ -1,4 +1,5 @@
 import '../../data/models/client.dart';
+import '../../data/models/homeworkpool.dart';
 
 class ClientsEvent {}
 
@@ -27,4 +28,13 @@ class ClientArchived extends ClientsEvent {
 class ClientReActivated extends ClientsEvent {
   ClientReActivated({required this.clientId});
   final String clientId;
+}
+
+class ClientAssignedHomeworkScreenInit extends ClientsEvent {}
+
+class ClientAssignedHomeworkPoolBeingFetched extends ClientsEvent {
+  ClientAssignedHomeworkPoolBeingFetched(
+      {required this.clientId, required this.homeworkPool});
+  final String clientId;
+  final HomeworkPool homeworkPool;
 }
