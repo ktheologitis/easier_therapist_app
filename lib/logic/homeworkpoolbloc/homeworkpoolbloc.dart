@@ -17,7 +17,7 @@ class HomeworkPoolBloc extends Bloc<HomeworkPoolEvent, HomeworkPoolState> {
     required this.firestoreInstance,
     required this.therapistId,
     required this.snackbarCubit,
-  }) : super(HomeworkPoolLoading(homeworkPool: HomeworkPool())) {
+  }) : super(HomeworkPoolDataInit(homeworkPool: HomeworkPool())) {
     homeworkPoolRepository = new HomeworkPoolRepository(
       firestoreInstance: firestoreInstance,
       therapistId: therapistId,
@@ -41,7 +41,7 @@ class HomeworkPoolBloc extends Bloc<HomeworkPoolEvent, HomeworkPoolState> {
     try {
       final HomeworkPool homeworkPool =
           await homeworkPoolRepository.getHomeworkPool();
-      yield HomeworkPoolDisplay(homeworkPool: homeworkPool);
+      yield HomeworkPoolDataSyncedWithDatabase(homeworkPool: homeworkPool);
     } catch (err) {
       print(err);
       snackbarCubit.showSnackbar(
@@ -60,7 +60,8 @@ class HomeworkPoolBloc extends Bloc<HomeworkPoolEvent, HomeworkPoolState> {
       await homeworkPoolRepository.addNewHomeworkToDatabase(
           homework: event.homework);
       state.homeworkPool.data[event.homework.id] = event.homework;
-      yield HomeworkPoolDisplay(homeworkPool: state.homeworkPool);
+      yield HomeworkPoolDataSyncedWithDatabase(
+          homeworkPool: state.homeworkPool);
       snackbarCubit.showSnackbar(
         message: "New homework ${event.homework.title} was added.",
         messageType: MessageType.information,
@@ -70,7 +71,8 @@ class HomeworkPoolBloc extends Bloc<HomeworkPoolEvent, HomeworkPoolState> {
         message: "Error adding new homework '${event.homework.title}'",
         messageType: MessageType.error,
       );
-      yield HomeworkPoolDisplay(homeworkPool: state.homeworkPool);
+      yield HomeworkPoolDataSyncedWithDatabase(
+          homeworkPool: state.homeworkPool);
     }
   }
 
@@ -80,7 +82,8 @@ class HomeworkPoolBloc extends Bloc<HomeworkPoolEvent, HomeworkPoolState> {
       homeworkPoolRepository.deleteHomeworkFromDatabase(
           homeworkId: event.homeworkId);
       state.homeworkPool.data.removeWhere((key, _) => key == event.homeworkId);
-      yield HomeworkPoolDisplay(homeworkPool: state.homeworkPool);
+      yield HomeworkPoolDataSyncedWithDatabase(
+          homeworkPool: state.homeworkPool);
     } catch (err) {
       snackbarCubit.showSnackbar(
           message: "Error on deleting homework",
@@ -98,14 +101,16 @@ class HomeworkPoolBloc extends Bloc<HomeworkPoolEvent, HomeworkPoolState> {
         message: "Homework successfully updated!",
         messageType: MessageType.information,
       );
-      yield HomeworkPoolDisplay(homeworkPool: state.homeworkPool);
+      yield HomeworkPoolDataSyncedWithDatabase(
+          homeworkPool: state.homeworkPool);
     } catch (err) {
       print(err);
       snackbarCubit.showSnackbar(
         message: "Error on updating homework in the cloud",
         messageType: MessageType.error,
       );
-      yield HomeworkPoolDisplay(homeworkPool: state.homeworkPool);
+      yield HomeworkPoolDataSyncedWithDatabase(
+          homeworkPool: state.homeworkPool);
     }
   }
 }

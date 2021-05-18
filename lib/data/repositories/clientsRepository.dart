@@ -71,27 +71,4 @@ class ClientsRepository {
   Future<void> reActivateClient({required String clientId}) async {
     await clientsDataProvider.reActivateClient(clientId: clientId);
   }
-
-  Future<AssignedHomeworkPool> getClientAssignedHomeworkPool({
-    required String clientId,
-    required HomeworkPool homeworkPool,
-  }) async {
-    QuerySnapshot clientRawAssignedHomeworkPool = await clientsDataProvider
-        .getClientRawAssignedHomework(clientId: clientId);
-
-    AssignedHomeworkPool assignedHomeworkPool = new AssignedHomeworkPool();
-    clientRawAssignedHomeworkPool.docs.isEmpty
-        ? assignedHomeworkPool.data = {}
-        : clientRawAssignedHomeworkPool.docs.forEach((rawAssignedHomework) {
-            assignedHomeworkPool.data[rawAssignedHomework.id] =
-                new AssignedHomework(
-              id: rawAssignedHomework.id,
-              referencedHomeworkId:
-                  rawAssignedHomework.data()["referencedHomeworkId"],
-              homeworkPool: homeworkPool,
-            );
-          });
-
-    return assignedHomeworkPool;
-  }
 }

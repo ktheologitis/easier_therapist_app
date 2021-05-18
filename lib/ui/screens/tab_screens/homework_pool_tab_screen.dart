@@ -41,14 +41,14 @@ class HomeworkPoolTabScreen extends StatelessWidget {
           ),
           BlocBuilder<HomeworkPoolBloc, HomeworkPoolState>(
             builder: (_, state) {
-              if (state is HomeworkPoolLoading) {
+              if (state is HomeworkPoolDataInit) {
                 homeworkPoolBloc.add(HomeworkPoolBeingFetched());
                 return Expanded(
                   child: Center(
                     child: Text("Loading"),
                   ),
                 );
-              } else if (state is HomeworkPoolDisplay) {
+              } else if (state is HomeworkPoolDataSyncedWithDatabase) {
                 var homeworkPoolList =
                     state.homeworkPool.data.values.toList().reversed.toList();
                 return Expanded(

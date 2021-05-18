@@ -23,7 +23,6 @@ class HomeworkPoolRepository {
   Future<HomeworkPool> getHomeworkPool() async {
     final QuerySnapshot rawHomeworkPool =
         await homeworkPoolDataProvider.getRawHomeworkPool();
-
     rawHomeworkPool.docs.forEach((rawHomework) {
       homeworkPool.data[rawHomework.id] = new Homework(
         id: rawHomework.id,

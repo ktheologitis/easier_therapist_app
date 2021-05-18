@@ -10,6 +10,6 @@ class ClientsDataSyncedWithDatabase extends ClientsState {
       : super(clients: clients);
 }
 
-class ClientsDataLoading extends ClientsState {
-  ClientsDataLoading({required Clients clients}) : super(clients: clients);
+class ClientsDataInit extends ClientsState {
+  ClientsDataInit({required Clients clients}) : super(clients: clients);
 }

@@ -6,7 +6,7 @@ import '../../data/models/client.dart';
 Future<DateTime?> showDateTimePicker(BuildContext context,
     TextEditingController dateTimeController, Client client) {
   return showDatePicker(
-    context: context!,
+    context: context,
     initialDate: DateTime.now(),
     firstDate: DateTime.now(),
     lastDate: DateTime.now().add(Duration(days: 6 * 30)),

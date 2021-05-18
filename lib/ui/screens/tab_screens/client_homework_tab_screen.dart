@@ -57,7 +57,9 @@ class _ClientHomeworkTabScreenState extends State<ClientHomeworkTabScreen>
             controller: _tabController,
             children: [
               Center(
-                child: AssignedHomeworkTabScreen(clientId: widget.clientId),
+                child: AssignedHomeworkTabScreen(
+                  clientId: widget.clientId,
+                ),
               ),
               Center(
                 child: Text("Completed Tab Screen"),

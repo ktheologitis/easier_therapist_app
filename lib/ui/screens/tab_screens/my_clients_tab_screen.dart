@@ -62,7 +62,7 @@ class MyClientsTabScreen extends StatelessWidget {
             ),
           ),
         );
-      } else if (state is ClientsDataLoading) {
+      } else if (state is ClientsDataInit) {
         clientsBloc.add(ClientsBeingFetched());
         return Center(
           child: CircularProgressIndicator(),

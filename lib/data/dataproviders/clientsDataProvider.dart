@@ -86,17 +86,4 @@ class ClientsDataProvider {
         .doc(clientId)
         .update({"active": true});
   }
-
-  Future<QuerySnapshot> getClientRawAssignedHomework(
-      {required String clientId}) async {
-    QuerySnapshot clientRawAssingedHomework = await fireStoreInstance
-        .collection("therapists")
-        .doc(therapistId)
-        .collection("clients")
-        .doc(clientId)
-        .collection("homeworkPool")
-        .get();
-
-    return clientRawAssingedHomework;
-  }
 }

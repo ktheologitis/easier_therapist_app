@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +10,8 @@ import './logic/homeworkpoolbloc/homeworkpoolbloc.dart';
 import './logic/filteredclientscubit/filteredclientscubit.dart';
 import './logic/snackbarcubit/snackbarcubit.dart';
 import './logic/updateclientcubit/updateclientcubit.dart';
+import './logic/firestoreinstancecubit/firestoreinstancecubit.dart';
+import './logic/therapistcubit/therapistcubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +22,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  final FirebaseFirestore _firestoreInstance = FirebaseFirestore.instance;
-  final String therapistId = "pSn6YIRx3yOWKqnvJpgv";
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +41,21 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MultiBlocProvider(
             providers: [
+              BlocProvider<TherapistCubit>(
+                create: (_) => TherapistCubit(),
+              ),
+              BlocProvider<FirestoreInstanceCubit>(
+                  create: (_) => FirestoreInstanceCubit()),
               BlocProvider<SnackbarCubit>(create: (_) => SnackbarCubit()),
               BlocProvider<UpdateClientCubit>(
                 create: (_) => UpdateClientCubit(),
               ),
               BlocProvider<ClientsBloc>(
                 create: (context) => ClientsBloc(
-                  firestoreInstance: _firestoreInstance,
-                  therapistId: therapistId,
+                  firestoreInstance:
+                      BlocProvider.of<FirestoreInstanceCubit>(context).state,
+                  therapistId:
+                      BlocProvider.of<TherapistCubit>(context).state.id,
                   snackbarCubit: BlocProvider.of<SnackbarCubit>(context),
                   updateClientCubit:
                       BlocProvider.of<UpdateClientCubit>(context),
@@ -57,8 +63,10 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<HomeworkPoolBloc>(
                 create: (context) => HomeworkPoolBloc(
-                    firestoreInstance: _firestoreInstance,
-                    therapistId: therapistId,
+                    firestoreInstance:
+                        BlocProvider.of<FirestoreInstanceCubit>(context).state,
+                    therapistId:
+                        BlocProvider.of<TherapistCubit>(context).state.id,
                     snackbarCubit: BlocProvider.of<SnackbarCubit>(context)),
               ),
               BlocProvider<FilteredClientsCubit>(
