@@ -104,6 +104,7 @@ Future<void> showAssignHomeworkDialog({
                           addAssignedHomework: handleAddAssignedHomework,
                           removeAssignedHomework: handleRemoveAssignedHomework,
                           handleNoteChange: handleNoteChange,
+                          assignedHomeworkPoolBloc: assignedHomeworkPoolBloc,
                         );
                       },
                     ),
@@ -159,11 +160,13 @@ class HomeworkPoolItemChoice extends StatefulWidget {
     required this.addAssignedHomework,
     required this.removeAssignedHomework,
     required this.handleNoteChange,
+    required this.assignedHomeworkPoolBloc,
   });
   final Homework homework;
   final Function addAssignedHomework;
   final Function removeAssignedHomework;
   final Function handleNoteChange;
+  final AssignedHomeworkPoolBloc assignedHomeworkPoolBloc;
 
   @override
   _HomeworkPoolItemChoiceState createState() => _HomeworkPoolItemChoiceState();
@@ -187,6 +190,7 @@ class _HomeworkPoolItemChoiceState extends State<HomeworkPoolItemChoice> {
                 String note = await showNoteDialog(
                   context: context,
                   homeworkTitle: widget.homework.title,
+                  assignedHomeworkPoolBloc: widget.assignedHomeworkPoolBloc,
                   currentNote: _currentNote,
                 );
                 _currentNote = note;

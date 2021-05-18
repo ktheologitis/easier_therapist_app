@@ -40,58 +40,56 @@ class _AssignedHomeworkTabScreenState extends State<AssignedHomeworkTabScreen> {
     final AssignedHomeworkPoolBloc assignedHomeworkPoolBloc =
         BlocProvider.of<AssignedHomeworkPoolBloc>(context);
 
-    return BlocConsumer<AssignedHomeworkPoolBloc, AssignedHomeworkPoolState>(
-        listener: (context, state) {},
+    return BlocBuilder<AssignedHomeworkPoolBloc, AssignedHomeworkPoolState>(
         builder: (context, state) {
-          if (homeworkPoolBloc.state is HomeworkPoolDataSyncedWithDatabase) {
-            if (state is AssignedHomeworkPoolInit) {
-              assignedHomeworkPoolBloc.add(AssignedHomeworkPoolBeingFetched(
-                  clientId: widget.clientId,
-                  homeworkPool: homeworkPoolBloc.state.homeworkPool));
-              return CircularProgressIndicator();
-            } else {
-              if (state.assignedHomeworkPool.data.isEmpty) {
-                return NoAssignedHomeworkDisplay(
-                  clientId: widget.clientId,
-                  homeworkPool: homeworkPoolBloc.state.homeworkPool,
-                );
-              } else {
-                return AssignedHomeworkDisplay(
-                    clientId: widget.clientId,
-                    homeworkPool: homeworkPoolBloc.state.homeworkPool);
-              }
-            }
-          } else {
-            return FutureBuilder(
-              future: currentHomeworkPool,
-              builder: (_, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData) {
-                  if (state is AssignedHomeworkPoolInit) {
-                    assignedHomeworkPoolBloc.add(
-                        AssignedHomeworkPoolBeingFetched(
-                            clientId: widget.clientId,
-                            homeworkPool: snapshot.data as HomeworkPool));
-                    return CircularProgressIndicator();
-                  } else {
-                    if (state.assignedHomeworkPool.data.isEmpty) {
-                      return NoAssignedHomeworkDisplay(
-                        clientId: widget.clientId,
-                        homeworkPool: snapshot.data as HomeworkPool,
-                      );
-                    } else {
-                      return AssignedHomeworkDisplay(
-                          clientId: widget.clientId,
-                          homeworkPool: snapshot.data as HomeworkPool);
-                    }
-                  }
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
+      if (homeworkPoolBloc.state is HomeworkPoolDataSyncedWithDatabase) {
+        if (state is AssignedHomeworkPoolInit) {
+          assignedHomeworkPoolBloc.add(AssignedHomeworkPoolBeingFetched(
+              clientId: widget.clientId,
+              homeworkPool: homeworkPoolBloc.state.homeworkPool));
+          return CircularProgressIndicator();
+        } else {
+          if (state.assignedHomeworkPool.data.isEmpty) {
+            return NoAssignedHomeworkDisplay(
+              clientId: widget.clientId,
+              homeworkPool: homeworkPoolBloc.state.homeworkPool,
             );
+          } else {
+            return AssignedHomeworkDisplay(
+                clientId: widget.clientId,
+                homeworkPool: homeworkPoolBloc.state.homeworkPool);
           }
-        });
+        }
+      } else {
+        return FutureBuilder(
+          future: currentHomeworkPool,
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              if (state is AssignedHomeworkPoolInit) {
+                assignedHomeworkPoolBloc.add(AssignedHomeworkPoolBeingFetched(
+                    clientId: widget.clientId,
+                    homeworkPool: snapshot.data as HomeworkPool));
+                return CircularProgressIndicator();
+              } else {
+                if (state.assignedHomeworkPool.data.isEmpty) {
+                  return NoAssignedHomeworkDisplay(
+                    clientId: widget.clientId,
+                    homeworkPool: snapshot.data as HomeworkPool,
+                  );
+                } else {
+                  return AssignedHomeworkDisplay(
+                      clientId: widget.clientId,
+                      homeworkPool: snapshot.data as HomeworkPool);
+                }
+              }
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        );
+      }
+    });
   }
 }
 

@@ -13,12 +13,11 @@ Future<String> showNoteDialog(
     required String homeworkTitle,
     String? assignedHomeworkId,
     required String currentNote,
+    required AssignedHomeworkPoolBloc assignedHomeworkPoolBloc,
     NoteDialogType type = NoteDialogType.addNote}) async {
   return await showDialog(
       context: context,
       builder: (_) {
-        final AssignedHomeworkPoolBloc assignedHomeworkPoolBloc =
-            BlocProvider.of<AssignedHomeworkPoolBloc>(context);
         final height = MediaQuery.of(context).size.height;
         final width = MediaQuery.of(context).size.width;
 
@@ -75,7 +74,7 @@ Future<String> showNoteDialog(
                       updatedNote: noteController.text,
                       assignedHomeworkId: assignedHomeworkId!,
                     ));
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop("");
                   }
                 },
               ),

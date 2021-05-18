@@ -32,6 +32,7 @@ class AssignedHomeworkListItem extends StatelessWidget {
                   context: context,
                   homeworkTitle: assignedHomework.title,
                   assignedHomeworkId: assignedHomework.id,
+                  assignedHomeworkPoolBloc: assignedHomeworkPoolBloc,
                   currentNote: assignedHomework.note,
                   type: NoteDialogType.updateNote,
                 );
