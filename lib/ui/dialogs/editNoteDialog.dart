@@ -69,11 +69,13 @@ Future<String> showNoteDialog(
                   if (type == NoteDialogType.addNote) {
                     Navigator.of(context).pop(noteController.text);
                   } else {
-                    assignedHomeworkPoolBloc.add(AssignedHomeworkNoteUpdated(
-                      clientId: assignedHomeworkPoolBloc.state.clientId,
-                      updatedNote: noteController.text,
-                      assignedHomeworkId: assignedHomeworkId!,
-                    ));
+                    if (currentNote != noteController.text) {
+                      assignedHomeworkPoolBloc.add(AssignedHomeworkNoteUpdated(
+                        clientId: assignedHomeworkPoolBloc.state.clientId,
+                        updatedNote: noteController.text,
+                        assignedHomeworkId: assignedHomeworkId!,
+                      ));
+                    }
                     Navigator.of(context).pop("");
                   }
                 },

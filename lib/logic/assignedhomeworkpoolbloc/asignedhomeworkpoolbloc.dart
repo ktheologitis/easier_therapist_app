@@ -109,7 +109,7 @@ class AssignedHomeworkPoolBloc
       state.assignedHomeworkPool.data[event.assignedHomeworkId]!.note =
           event.updatedNote;
       snackbarCubit.showSnackbar(
-          message: "Successfuææy updated note!",
+          message: "Successfully updated note!",
           messageType: MessageType.information);
       yield AssignedHomeworkPoolSyncedWithDatabase(
           clientId: clientId, assignedHomeworkPool: state.assignedHomeworkPool);
