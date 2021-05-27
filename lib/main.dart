@@ -12,6 +12,8 @@ import './logic/snackbarcubit/snackbarcubit.dart';
 import './logic/updateclientcubit/updateclientcubit.dart';
 import './logic/firestoreinstancecubit/firestoreinstancecubit.dart';
 import './logic/therapistcubit/therapistcubit.dart';
+import './logic/completedHomeworkPoolBloc/completedHomeworkPoolBloc.dart';
+import './logic/showCompletedHomeworkAnswersCubit/showCompletedHomeworkAnswersCubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,6 +74,16 @@ class MyApp extends StatelessWidget {
               BlocProvider<FilteredClientsCubit>(
                   create: (context) => FilteredClientsCubit(
                       clientsBloc: BlocProvider.of<ClientsBloc>(context))),
+              BlocProvider<CompletedHomeworkPoolBloc>(
+                create: (context) => CompletedHomeworkPoolBloc(
+                    therapistId:
+                        BlocProvider.of<TherapistCubit>(context).state.id,
+                    firestoreInstance:
+                        BlocProvider.of<FirestoreInstanceCubit>(context).state,
+                    snackbarCubit: BlocProvider.of<SnackbarCubit>(context)),
+              ),
+              BlocProvider<ShowCompletedHomeworkAnswersCubit>(
+                  create: (_) => ShowCompletedHomeworkAnswersCubit()),
             ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,

@@ -48,7 +48,6 @@ class _ClientBasicInformationTabScreenState
   @override
   Widget build(BuildContext context) {
     print("Tab screen rebuilt");
-    final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
     return Padding(
@@ -94,38 +93,66 @@ class _ClientBasicInformationTabScreenState
                     top: 24,
                     right: 24,
                     child: Container(
-                      color: Colors.yellow,
-                      child: Row(
-                        children: [
-                          TextButton.icon(
-                            icon: Icon(Icons.done),
-                            label: Text("SAVE CHANGES"),
-                            onPressed: () {
-                              if (basicInformationFormKey.currentState!
-                                      .validate() &&
-                                  emergencyContactFormKey.currentState!
-                                      .validate()) {
-                                basicInformationFormKey.currentState!.save();
-                                emergencyContactFormKey.currentState!.save();
-                                print(editableClient.toFirestoreJson());
-                                clientsBloc.add(ClientUpdated(
-                                    updatedClient: editableClient));
-                              }
-                            },
+                        decoration: BoxDecoration(
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: Row(
+                            children: [
+                              TextButton.icon(
+                                icon: Icon(Icons.undo, color: Colors.white),
+                                label: Text(
+                                  "UNDO CHANGES",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    updateClientCubit.noDataChange();
+                                    handleLocalState();
+                                  });
+                                },
+                              ),
+                              SizedBox(
+                                width: 16.0,
+                              ),
+                              TextButton.icon(
+                                icon: Icon(Icons.done, color: Colors.white),
+                                label: Text(
+                                  "SAVE CHANGES",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  if (basicInformationFormKey.currentState!
+                                          .validate() &&
+                                      emergencyContactFormKey.currentState!
+                                          .validate()) {
+                                    basicInformationFormKey.currentState!
+                                        .save();
+                                    emergencyContactFormKey.currentState!
+                                        .save();
+                                    print(editableClient.toFirestoreJson());
+                                    clientsBloc.add(ClientUpdated(
+                                        updatedClient: editableClient));
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        )),
                   );
                 } else if (state == UpdateClientCubitState.savingChanges) {
                   return Positioned(
                     top: 24,
                     right: 24,
-                    child: Container(
-                      color: Colors.yellow,
-                      child: Row(
-                        children: [Text("Saving...")],
-                      ),
+                    child: SizedBox(
+                      height: 28,
+                      width: 28,
+                      child: CircularProgressIndicator(
+                          color: Theme.of(context).accentColor),
                     ),
                   );
                 } else {

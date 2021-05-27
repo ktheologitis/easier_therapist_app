@@ -1,7 +1,13 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../styles/colors_icons.dart';
 import 'assigned_homework_tab.dart';
+import 'completedHomeworkTabScreen.dart';
+import '../../../logic/showCompletedHomeworkAnswersCubit/showCompletedHomeworkAnswersCubit.dart';
+import '../tab_screens/completedHomeworkAnswersTabScreen.dart';
 
 class ClientHomeworkTabScreen extends StatefulWidget {
   ClientHomeworkTabScreen({required this.clientId});
@@ -61,8 +67,21 @@ class _ClientHomeworkTabScreenState extends State<ClientHomeworkTabScreen>
                   clientId: widget.clientId,
                 ),
               ),
-              Center(
-                child: Text("Completed Tab Screen"),
+              BlocBuilder<ShowCompletedHomeworkAnswersCubit,
+                  ShowCompletedHomeworkAnswersState>(
+                builder: (_, state) {
+                  return Center(
+                    child: Stack(
+                      children: [
+                        CompletedHomeworkTabScreen(
+                          clientId: widget.clientId,
+                        ),
+                        if (state.showAnswersScreen == true)
+                          CompletedHomeworkAnswersTabScreen(),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           ),
