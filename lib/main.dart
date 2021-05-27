@@ -85,9 +85,7 @@ class MyApp extends StatelessWidget {
             ),
           );
         }
-        return Center(
-          child: Text("Loading", textDirection: TextDirection.ltr),
-        );
+        return CircularProgressIndicator();
       },
     );
   }

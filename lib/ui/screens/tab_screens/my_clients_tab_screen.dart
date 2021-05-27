@@ -65,7 +65,9 @@ class MyClientsTabScreen extends StatelessWidget {
       } else if (state is ClientsDataInit) {
         clientsBloc.add(ClientsBeingFetched());
         return Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: Theme.of(context).accentColor,
+          ),
         );
       } else {
         return Container(

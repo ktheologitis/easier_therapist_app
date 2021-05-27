@@ -45,7 +45,9 @@ class HomeworkPoolTabScreen extends StatelessWidget {
                 homeworkPoolBloc.add(HomeworkPoolBeingFetched());
                 return Expanded(
                   child: Center(
-                    child: Text("Loading"),
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 );
               } else if (state is HomeworkPoolDataSyncedWithDatabase) {

@@ -48,7 +48,7 @@ class HomeworkPoolListItem extends StatelessWidget {
                 onPressed: () {
                   showVerifyActionDialog(
                       context: context,
-                      title: "Are you sure you want to delete this client?",
+                      title: "Are you sure you want to delete this homework?",
                       action: handleDeleteHomework);
                 },
                 icon: Icon(Icons.delete)),
