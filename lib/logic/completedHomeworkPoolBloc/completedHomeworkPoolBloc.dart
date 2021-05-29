@@ -31,6 +31,9 @@ class CompletedHomeworkPoolBloc
       CompletedHomeworkPoolEvent event) async* {
     if (event is CompletedHomeworkPoolBeingFetched) {
       yield* _mapCompletedHomeworkPoolBeingFetchedEventToState(event);
+    } else if (event is CompletedHomeworkPoolReset) {
+      yield CompletedHomeworkPoolInit(
+          completedHomeworkPool: new CompletedHomeworkPool());
     }
   }
 

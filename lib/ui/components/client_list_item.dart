@@ -7,6 +7,7 @@ import '../../data/models/clients.dart';
 import '../screens/screen_argument_models/client_profile_screen_arguments.dart';
 import '../../logic/clientsbloc/clientsbarrel.dart';
 import '../styles/colors_icons.dart';
+import '../../logic/completedHomeworkPoolBloc/completedHomeworKBarrel.dart';
 
 class ClientListItem extends StatelessWidget {
   ClientListItem({required this.clientId});
@@ -16,11 +17,16 @@ class ClientListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Clients clients = BlocProvider.of<ClientsBloc>(context).state.clients;
+    final CompletedHomeworkPoolBloc completedHomeworkPoolBloc =
+        BlocProvider.of<CompletedHomeworkPoolBloc>(context);
     final Client client = clients.data[clientId]!;
 
     return ListTile(
       onTap: () {
         print("yeah!");
+        if (completedHomeworkPoolBloc.state is! CompletedHomeworkPoolInit) {
+          completedHomeworkPoolBloc.add(CompletedHomeworkPoolReset());
+        }
         Navigator.pushNamed(
           context,
           ClientProfileScreen.routeName,

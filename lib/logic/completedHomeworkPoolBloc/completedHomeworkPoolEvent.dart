@@ -6,3 +6,5 @@ class CompletedHomeworkPoolBeingFetched extends CompletedHomeworkPoolEvent {
     required this.clientId,
   });
 }
+
+class CompletedHomeworkPoolReset extends CompletedHomeworkPoolEvent {}

@@ -14,6 +14,7 @@ class CompletedHomeworkTabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final CompletedHomeworkPoolBloc completedHomeworkPoolBloc =
         BlocProvider.of<CompletedHomeworkPoolBloc>(context);
+    print("clientId: $clientId");
 
     return BlocBuilder<CompletedHomeworkPoolBloc, CompletedHomeworkPoolState>(
       builder: (_, state) {

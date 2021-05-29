@@ -19,7 +19,7 @@ class CompletedHomeworkPoolDataProvider {
         .collection("completedHomework")
         .orderBy("dateTimeAnswered", descending: false)
         .get();
-
+    print(rawCompletedHomeworkPool.docs.length);
     return rawCompletedHomeworkPool;
   }
 }
