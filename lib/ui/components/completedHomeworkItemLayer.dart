@@ -20,7 +20,6 @@ class CompletedHomeworkItemLayer extends StatelessWidget {
         DateFormat.Hm().format(completedHomework.dateTimeAnswered);
     return InkWell(
       onTap: () {
-        print("review completed Homework");
         showCompletedHomeworkAnswersCubit.showAnswersScreen(
             completedHomework: completedHomework);
       },
