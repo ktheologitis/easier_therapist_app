@@ -1,4 +1,4 @@
-## Easier Platform - (Therapist's web application)
+<h1 align="center">Easier Platform - (Therapist's web application)</h1>
 
 ### Description
 Easier is a Digital Platform that aspires to enhance information/sharing between mental-health professionals and their clients.
@@ -8,4 +8,8 @@ The platform was ideated, designed and built as a Thesis project for my MSc in H
 
 ### Demo
 The platform is not live, but you can see this [demo video](https://youtu.be/omxkoQRSCYw) to get a good idea of its features and functionality.
+
+### Implementation
+Design
+
 
