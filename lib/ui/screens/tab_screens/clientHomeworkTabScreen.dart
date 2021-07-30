@@ -3,8 +3,8 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../styles/colors_icons.dart';
-import 'assigned_homework_tab.dart';
+import '../../styles/colorsIcons.dart';
+import 'assignedHomeworkTab.dart';
 import 'completedHomeworkTabScreen.dart';
 import '../../../logic/showCompletedHomeworkAnswersCubit/showCompletedHomeworkAnswersCubit.dart';
 import '../tab_screens/completedHomeworkAnswersTabScreen.dart';

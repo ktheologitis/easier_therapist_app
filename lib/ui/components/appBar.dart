@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../styles/colors_icons.dart';
-import 'floating_button.dart';
+import '../styles/colorsIcons.dart';
+import 'floatingButton.dart';
 
 class EasierAppBar extends StatelessWidget implements PreferredSizeWidget {
   EasierAppBar({required this.title, required this.showDialog});

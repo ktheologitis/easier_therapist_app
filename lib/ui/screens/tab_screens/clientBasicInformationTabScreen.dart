@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../components/basic_information_card.dart';
-import '../../components/emergency_contact_card.dart';
+import '../../components/basicinformationCard.dart';
+import '../../components/emergencyContactCard.dart';
 import '../../../data/models/client.dart';
 import '../../../logic/updateclientcubit/updateclientcubit.dart';
 import '../../../logic/clientsbloc/clientsbarrel.dart';

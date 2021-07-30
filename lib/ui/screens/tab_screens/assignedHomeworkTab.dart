@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/models/client.dart';
-import '../../components/assigned_homework_list_item.dart';
+import '../../components/assignedHomeworkListItem.dart';
 import '../../../logic/homeworkpoolbloc/homeworkpoolbarrel.dart';
-import '../../components/floating_button.dart';
-import '../../styles/colors_icons.dart';
+import '../../components/floatingButton.dart';
+import '../../styles/colorsIcons.dart';
 import '../../dialogs/assignHomeworkDialog.dart';
 import '../../../data/models/homeworkpool.dart';
 import '../../../logic/assignedhomeworkpoolbloc/assignedhomeworkpoolbarrel.dart';

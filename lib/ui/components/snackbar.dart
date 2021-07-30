@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:easier_therapist_app/logic/snackbarcubit/snackbarcubit.dart';
-import 'package:easier_therapist_app/ui/styles/colors_icons.dart';
+import 'package:easier_therapist_app/ui/styles/colorsIcons.dart';
 
 SnackBar getMyCustomSnackBar(
     {required String message, required MessageType messageType}) {

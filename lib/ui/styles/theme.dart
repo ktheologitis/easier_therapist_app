@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors_icons.dart';
+import 'colorsIcons.dart';
 
 ThemeData getTheme() {
   return ThemeData(

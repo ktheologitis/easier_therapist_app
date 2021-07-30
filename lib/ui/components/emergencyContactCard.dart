@@ -4,7 +4,7 @@ import 'package:easier_therapist_app/logic/updateclientcubit/updateclientcubit.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../styles/colors_icons.dart';
+import '../styles/colorsIcons.dart';
 import '../../data/models/client.dart';
 import '../../logic/clientsbloc/clientsbarrel.dart';
 import '../../logic/updateclientcubit/updateclientcubit.dart';

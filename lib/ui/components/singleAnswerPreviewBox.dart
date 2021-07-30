@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../data/models/completedhomework.dart';
-import '../styles/colors_icons.dart';
+import '../styles/colorsIcons.dart';
 
 class SingleAnswerPreviewBox extends StatelessWidget {
   final String completedHomeworkField;

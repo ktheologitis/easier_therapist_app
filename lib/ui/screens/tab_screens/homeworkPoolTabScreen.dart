@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/models/homework.dart';
-import '../../components/homework_pool_list_item.dart';
-import '../../dialogs/create_new_homework_dialog.dart';
+import '../../components/homeworkPoolListItem.dart';
+import '../../dialogs/createNewHomeworkDialog.dart';
 import '../../../logic/homeworkpoolbloc/homeworkpoolbarrel.dart';
 
 class HomeworkPoolTabScreen extends StatelessWidget {

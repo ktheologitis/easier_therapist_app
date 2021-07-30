@@ -1,5 +1,5 @@
 import '../../../data/models/client.dart';
-import '../main_screens/client_profile_screen.dart';
+import '../main_screens/clientProfileScreen.dart';
 
 class ClientProfileScreenArguments {
   final String clientId;

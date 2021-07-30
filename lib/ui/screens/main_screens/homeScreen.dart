@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../tab_screens/my_clients_tab_screen.dart';
-import '../tab_screens/homework_pool_tab_screen.dart';
+import '../tab_screens/myClientsTabScreen.dart';
+import '../tab_screens/homeworkPoolTabScreen.dart';
 import '../../components/appBar.dart';
-import '../../dialogs/add_new_client_dialog.dart';
+import '../../dialogs/addNewClientDialog.dart';
 import '../../../logic/snackbarcubit/snackbarcubit.dart';
 import '../../components/snackbar.dart';
 

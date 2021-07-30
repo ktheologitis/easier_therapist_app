@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../screens/main_screens/client_profile_screen.dart';
+import '../screens/main_screens/clientProfileScreen.dart';
 import '../../data/models/client.dart';
 import '../../data/models/clients.dart';
-import '../screens/screen_argument_models/client_profile_screen_arguments.dart';
+import '../screens/screen_argument_models/clientProfileScreenArguments.dart';
 import '../../logic/clientsbloc/clientsbarrel.dart';
-import '../styles/colors_icons.dart';
+import '../styles/colorsIcons.dart';
 import '../../logic/completedHomeworkPoolBloc/completedHomeworKBarrel.dart';
 import '../../logic/showCompletedHomeworkAnswersCubit/showCompletedHomeworkAnswersCubit.dart';
 

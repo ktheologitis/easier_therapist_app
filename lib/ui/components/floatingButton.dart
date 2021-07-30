@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../styles/colors_icons.dart';
+import '../styles/colorsIcons.dart';
 
 typedef Action = void Function();
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../components/client_list_item.dart';
+import '../../components/clientListItem.dart';
 import '../../../logic/clientsbloc/clientsbarrel.dart';
 import '../../../data/models/client.dart';
 import '../../../logic/filteredclientscubit/filteredclientscubit.dart';

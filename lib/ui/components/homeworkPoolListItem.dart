@@ -5,7 +5,7 @@ import 'dart:ui';
 import '../../data/models/homework.dart';
 import '../../logic/homeworkpoolbloc/homeworkpoolbarrel.dart';
 import '../dialogs/verifyActionDialog.dart';
-import '../dialogs/create_new_homework_dialog.dart';
+import '../dialogs/createNewHomeworkDialog.dart';
 
 class HomeworkPoolListItem extends StatelessWidget {
   HomeworkPoolListItem({required this.homework});

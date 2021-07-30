@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easier_therapist_app/ui/dialogs/add_new_client_dialog.dart';
+import 'package:easier_therapist_app/ui/dialogs/addNewClientDialog.dart';
 
 import './assignedhomeworkpoolevent.dart';
 import './assignedhomeworkpoolstate.dart';

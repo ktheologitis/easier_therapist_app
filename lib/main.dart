@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import './ui/styles/theme.dart';
-import './ui/screens/main_screens/home_screen.dart';
-import './ui/screens/main_screens/client_profile_screen.dart';
+import 'ui/screens/main_screens/homeScreen.dart';
+import 'ui/screens/main_screens/clientProfileScreen.dart';
 import './logic/clientsbloc/clientsbloc.dart';
 import './logic/homeworkpoolbloc/homeworkpoolbloc.dart';
 import './logic/filteredclientscubit/filteredclientscubit.dart';

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../components/appBar.dart';
-import '../tab_screens/client_homework_tab_screen.dart';
-import '../screen_argument_models/client_profile_screen_arguments.dart';
-import '../../components/client_profile_sidesheet.dart';
-import '../tab_screens/client_basic_information_tab_screen.dart';
-import '../../dialogs/add_new_client_dialog.dart';
+import '../tab_screens/clientHomeworkTabScreen.dart';
+import '../screen_argument_models/clientProfileScreenArguments.dart';
+import '../../components/clientProfileSidesheet.dart';
+import '../tab_screens/clientBasicInformationTabScreen.dart';
+import '../../dialogs/addNewClientDialog.dart';
 import '../../../data/models/client.dart';
 import '../../../data/models/clients.dart';
 import '../../../logic/clientsbloc/clientsbloc.dart';
